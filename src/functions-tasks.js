@@ -50,8 +50,8 @@ function getFunctionBody(/* func */) {
  *  ]) => [0, 1, 2]
  *
  */
-function getArgumentsCount(/* funcs */) {
-  throw new Error('Not implemented');
+function getArgumentsCount(funcs) {
+  return funcs.map((func) => func.length);
 }
 
 /**
@@ -70,8 +70,10 @@ function getArgumentsCount(/* funcs */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return function (base) {
+    return base ** exponent;
+  };
 }
 
 /**
@@ -105,8 +107,31 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+/**
+ * Memoizes passed function and returns function
+ * which invoked first time calls the passed function and then always returns cached result.
+ *
+ * @params {Function} func - function to memoize
+ * @return {Function} memoized function
+ *
+ * @example
+ *   const memoizer = memoize(() => Math.random());
+ *   memoizer() => some random number  (first run, evaluates the result of Math.random())
+ *   memoizer() => the same random number  (second run, returns the previous cached result)
+ *   ...
+ *   memoizer() => the same random number  (next run, returns the previous cached result)
+ */
+function memoize(func) {
+  let cache;
+  let hasBeenCalled = false;
+
+  return function () {
+    if (!hasBeenCalled) {
+      cache = func();
+      hasBeenCalled = true;
+    }
+    return cache;
+  };
 }
 
 /**
@@ -124,8 +149,18 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return function () {
+    let lastError;
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError;
+  };
 }
 
 /**
