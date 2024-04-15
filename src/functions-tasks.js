@@ -71,7 +71,7 @@ function getArgumentsCount(funcs) {
  *
  */
 function getPowerFunction(exponent) {
-  return function (base) {
+  return function powerFunction(base) {
     return base ** exponent;
   };
 }
@@ -125,7 +125,7 @@ function memoize(func) {
   let cache;
   let hasBeenCalled = false;
 
-  return function () {
+  return function memoized() {
     if (!hasBeenCalled) {
       cache = func();
       hasBeenCalled = true;
@@ -150,7 +150,7 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return function () {
+  return function retryer() {
     let lastError;
     for (let i = 0; i < attempts; i += 1) {
       try {
